@@ -10,7 +10,7 @@ You will need ncurses to compile this. On Debian:
 
 And then
 
-        make
+        make && make doc
         ./bin/blocks
 
 Controls
