@@ -1,13 +1,14 @@
+---
+sudo: required
+dist: trusty
+
 langauge: cpp
-sudo: false
-script:
-  - make
+
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
     packages:
-    - gcc-5
-    - clang
-    - libncurses5-dev
+      - libncurses5-dev
 
+script:
+  - make
+...
