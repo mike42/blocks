@@ -5,24 +5,24 @@
   * @todo: document this function
   */
 bool blocks_game::test_location(int point[BLOCKS_SHAPE_HEIGHT][BLOCKS_SHAPE_WIDTH], int top, int left){
-	int x, y;
-	int normX, normY;
+    int x, y;
+    int normX, normY;
 
-	for(y = 0; y < BLOCKS_SHAPE_HEIGHT; y++) {
-		for(x = 0; x < BLOCKS_SHAPE_WIDTH; x++) {
-			if(point[y][x] != 0) {
-				normX = x + left;
-				normY = y + top;
-				if(normX < 0 || normY < 0 || normX >= _width || normY >= _height) {
+    for(y = 0; y < BLOCKS_SHAPE_HEIGHT; y++) {
+        for(x = 0; x < BLOCKS_SHAPE_WIDTH; x++) {
+            if(point[y][x] != 0) {
+                normX = x + left;
+                normY = y + top;
+                if(normX < 0 || normY < 0 || normX >= _width || normY >= _height) {
                     return false;
-				}
-				if(board[normY][normX] != 0) {
-					return false;
-				}
-			}
-		}
-	}
-	return true;
+                }
+                if(board[normY][normX] != 0) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 /** @brief write_shape
@@ -66,9 +66,9 @@ void blocks_game::new_shape() {
     next_shape = new blocks_shape(shapes[id]);
     int i, spinTimes;
     spinTimes = rotateDist(gen) % 4;
-	for(i = 0; i < spinTimes; i++) {
-		next_shape -> rotate();
-	}
+    for(i = 0; i < spinTimes; i++) {
+        next_shape -> rotate();
+    }
 
     if(falling_shape == nullptr) {
         /* Do a second loop (for when there were no shapes defined) */
@@ -100,7 +100,7 @@ void blocks_game::render() {
         }
     }
 
-	int normX, normY;
+    int normX, normY;
     if(falling_shape != nullptr) {
         for(y = 0; y < falling_shape -> height; y++) {
             for(x = 0; x < falling_shape -> width; x++) {
@@ -218,36 +218,36 @@ void blocks_game::down() {
     if(!test_location(falling_shape -> point, falling_top + 1, falling_left)) {
         write_shape();
 
-		/* Check for full rows */
-		int y, y2, x, full_count = 0;
+        /* Check for full rows */
+        int y, y2, x, full_count = 0;
         bool row_is_full;
-		for(y = 0; y < _height; y++) {
-			row_is_full = true;
-			for(x = 0; x < _width; x++) {
-				if(board[y][x] == 0) {
-					row_is_full = false;
-				}
-			}
+        for(y = 0; y < _height; y++) {
+            row_is_full = true;
+            for(x = 0; x < _width; x++) {
+                if(board[y][x] == 0) {
+                    row_is_full = false;
+                }
+            }
 
-			if(row_is_full) {
-				/* Push every row above this onedown */
-				for(y2 = y; y2 > 0; y2--) {
-					for(x = 0; x < _width; x++) {
-						board[y2][x] = board[y2 - 1][x];
-					}
-				}
+            if(row_is_full) {
+                /* Push every row above this onedown */
+                for(y2 = y; y2 > 0; y2--) {
+                    for(x = 0; x < _width; x++) {
+                        board[y2][x] = board[y2 - 1][x];
+                    }
+                }
 
-				/* Clear top row */
-				for(x = 0; x < _width; x++) {
-					board[0][x] = 0;
-				}
+                /* Clear top row */
+                for(x = 0; x < _width; x++) {
+                    board[0][x] = 0;
+                }
 
-				full_count++;
-			}
-		}
+                full_count++;
+            }
+        }
 
-		if(full_count != 0) {
-		    /* Scoring numbers from http://tetris.wikia.com/wiki/Scoring */
+        if(full_count != 0) {
+            /* Scoring numbers from http://tetris.wikia.com/wiki/Scoring */
             switch(full_count) {
                 case 1:
                     _score += 100 * _level;
@@ -308,8 +308,8 @@ void blocks_game::begin() {
     _level = 1;
     notify_level_changed();
 
-	/* Send the first shape */
-	new_shape();
+    /* Send the first shape */
+    new_shape();
 }
 
 /** @brief ~blocks_game
@@ -370,7 +370,7 @@ void blocks_game::begin() {
     cell        = new int *[_height];
     last_cell   = new int *[_height];
     board       = new int *[_height];
-	cell_haschanged= new bool *[_height];
+    cell_haschanged= new bool *[_height];
 
     for(y = 0; y < _height ; y++ ) {
         /* Columns */
@@ -392,8 +392,8 @@ void blocks_game::begin() {
     falling_top = 0;
     falling_left = 0;
 
-	/* Set up random engine */
-	std :: random_device rd;
+    /* Set up random engine */
+    std :: random_device rd;
     gen.seed(rd());
     shapeDist =  std :: uniform_int_distribution<int> (0, shapes.size() - 1);
     rotateDist = std :: uniform_int_distribution<int> (0, 4);
@@ -444,22 +444,34 @@ void blocks_game::run() {
         begin();
     }
 
+    /* Speed variables */
+    int initial_speed = 400;
+    int speedup_rate = 15; // Number of realistically playable levels.
+    int frame_count = 0;
+
     /* Poll for input until game is over */
     struct timespec ts, now;
     long diff, frame_ns; /* Really only good to within ~5ms, but gettime works in nanoseconds */
-    frame_ns = 800 * 1000000;
+    frame_ns = initial_speed * 1000000; // Initial speed here. Lower numbers are harder
 
     clock_gettime(CLOCK_MONOTONIC, &now);
     while(state == GAME_RUNNING) {
         ts = now;
         diff = 0;
-		while(state == GAME_RUNNING && diff < frame_ns) {
-		    notify_check_for_input();
-		    usleep(10000);
+        while(state == GAME_RUNNING && diff < frame_ns) {
+            notify_check_for_input();
+            usleep(5000);
             clock_gettime(CLOCK_MONOTONIC, &now);
             diff = (now.tv_sec - ts.tv_sec) * 1000000000 + (now.tv_nsec - ts.tv_nsec);
-		}
-		down();
+        }
+        down();
+        frame_count++;
+        if(frame_count % 300 == 0) {
+            // Increment levels
+            _level++;
+            notify_level_changed();
+            frame_ns -= (frame_ns / speedup_rate); // Speed-up rate here. Lower number becomes more difficult very quickly
+        }
     }
 }
 
