@@ -1,6 +1,9 @@
 Blocks [![Build Status](https://travis-ci.org/mike42/blocks.svg?branch=master)](https://travis-ci.org/mike42/blocks)
 ================
+
 This is a simple text-based tetris clone for Linux.
+
+![Screenshot](screenshot.png)
 
 Compiling
 --------------
