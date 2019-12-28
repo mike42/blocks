@@ -7,14 +7,15 @@ This is a simple text-based tetris clone for Linux.
 
 Compiling
 --------------
-You will need ncurses to compile this, and doxygen to generate the documentation. On Debian:
+You will need ncurses and cmake to compile this. On Debian:
 
-        apt-get install libncurses5-dev doxygen
+        apt-get install cmake libncurses5-dev
 
-And then
+And then:
 
-        make && make doc
-        ./bin/blocks
+        cmake .
+        make
+        ./blocks
 
 Controls
 -------------

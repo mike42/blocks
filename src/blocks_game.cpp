@@ -318,11 +318,11 @@ void blocks_game::begin() {
   */
  blocks_game::~blocks_game() {
     /* Free shapes */
-    if(falling_shape != NULL) {
+    if(falling_shape != nullptr) {
         delete falling_shape;
     }
 
-    if(next_shape != NULL) {
+    if(next_shape != nullptr) {
         delete next_shape;
     }
 
@@ -414,10 +414,12 @@ void blocks_game :: clear() {
     /* Clear shapes and whatnot */
     if(falling_shape != nullptr) {
         delete falling_shape;
+        falling_shape = nullptr;
     }
 
     if(next_shape != nullptr) {
         delete next_shape;
+        next_shape = nullptr;
     }
 }
 
@@ -450,10 +452,10 @@ void blocks_game::run() {
     int frame_count = 0;
 
     /* Poll for input until game is over */
-    struct timespec ts, now;
+    struct timespec ts;
     long diff, frame_ns; /* Really only good to within ~5ms, but gettime works in nanoseconds */
     frame_ns = initial_speed * 1000000; // Initial speed here. Lower numbers are harder
-
+    struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
     while(state == GAME_RUNNING) {
         ts = now;

@@ -9,13 +9,13 @@ std::vector<blocks_shape> blocks_shape::standard_shapes() {
         The colours are ncurses colour numbers.
     */
     std::vector<blocks_shape> shapes;
-    shapes.push_back(blocks_shape(std :: string("5555"), 2, 2)); // Box, 5 (magenta)
-    shapes.push_back(blocks_shape(std :: string("0000666600000000"), 4, 4)); // I, 6 (cyan)
-    shapes.push_back(blocks_shape(std :: string("330033000"), 3, 3)); // Z, 3 (yellow)
-    shapes.push_back(blocks_shape(std :: string("077770000"), 3, 3)); // S, 7 (white)
-    shapes.push_back(blocks_shape(std :: string("001111000"), 3, 3)); // L, 1 (red)
-    shapes.push_back(blocks_shape(std :: string("040444000"), 3, 3)); // T, 4 (blue)
-    shapes.push_back(blocks_shape(std :: string("200222000"), 3, 3)); // J, 2 (green)
+    shapes.emplace_back(std :: string("5555"), 2, 2); // Box, 5 (magenta)
+    shapes.emplace_back(std :: string("0000666600000000"), 4, 4); // I, 6 (cyan)
+    shapes.emplace_back(std :: string("330033000"), 3, 3); // Z, 3 (yellow)
+    shapes.emplace_back(std :: string("077770000"), 3, 3); // S, 7 (white)
+    shapes.emplace_back(std :: string("001111000"), 3, 3); // L, 1 (red)
+    shapes.emplace_back(std :: string("040444000"), 3, 3); // T, 4 (blue)
+    shapes.emplace_back(std :: string("200222000"), 3, 3); // J, 2 (green)
     return shapes;
 }
 

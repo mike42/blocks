@@ -1,2 +1,12 @@
-bin/blocks
+# Build output
+blocks
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake*
+
+# IntelliJ files
+.idea/
+*.cbp
 

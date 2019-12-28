@@ -10,5 +10,6 @@ addons:
       - libncurses5-dev
 
 script:
+  - cmake .
   - make
 ...
