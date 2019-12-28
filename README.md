@@ -9,13 +9,18 @@ Compiling
 --------------
 You will need ncurses and cmake to compile this. On Debian:
 
-        apt-get install cmake libncurses5-dev
+
+```bash
+apt-get install cmake libncurses5-dev
+```
 
 And then:
 
-        cmake .
-        make
-        ./blocks
+```bash
+cmake .
+make
+./blocks
+```
 
 Controls
 -------------
