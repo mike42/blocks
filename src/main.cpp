@@ -193,7 +193,7 @@ int main() {
     draw_border();
 
     /* Start up blocks game */
-    blocks_game *blocks = new blocks_game(game_width / 2, game_height);
+    auto *blocks = new blocks_game(game_width / 2, game_height);
     blocks -> check_for_input = check_for_input;
     blocks -> cells_changed = cells_changed;
     blocks -> shape_changed = shape_changed;

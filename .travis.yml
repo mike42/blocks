@@ -1,6 +1,5 @@
 ---
-sudo: required
-dist: trusty
+dist: bionic
 
 langauge: cpp
 
@@ -10,5 +9,6 @@ addons:
       - libncurses5-dev
 
 script:
+  - cmake .
   - make
 ...
